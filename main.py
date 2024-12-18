@@ -25,7 +25,7 @@ def compute_number_neighbors(paded_frame, index_line, index_column):
 
     return number_neighbors
 
-
+print(compute_number_neighbors(frame, 2, 3))
 
 def compute_next_frame(frame):
     """
@@ -38,16 +38,28 @@ def compute_next_frame(frame):
     Faites attention à l'index de début et d'arrêt ! (il s'agit de la matrice avec bordure)
 
     # L'étape 2 et 3 se font au cours de la même itération (attention à l'indentation !)
-    
-    # Étape 2 : Pour chacun des éléments, calculez le nombre de voisins.
-    On fait appelle à la fonction (compute_number_neighbors)
-    
+    """
+    frame_modify = paded_frame.copy() # creation d'une copie à modifer (apparament si je fait une simple assignation quand je modify le array ils changes tous les deux)
+    # recuperationration de la taille des lignes et des colonnes
+    rows, cols = frame_modify.shape
+    print(rows, cols)
+    for line in range(1, rows-1):
+        for column in range(1, cols-1):
+            number_neighbors = compute_number_neighbors(paded_frame, line, column) #voir combien de voisin
+            if (paded_frame[line, column] == 0) and (number_neighbors == 3): 
+                frame_modify[line, column] = 1
+            elif paded_frame[line, column] == 1 and (number_neighbors in [2, 3]):
+                continue #ne rien faire 
+            else : frame_modify[line, column] = 0
+    """
     # Étape 3 : Pour chacun des éléments faire les tests (état de l'élément et son nombre de voisin) afin de voir
     si il y a des modifications à faire.
     Si c'est le cas effectuez les modifications directement dans la matrices frame (Attention à l'indice
     utilisé ! )"""
     
-    return frame
+    return frame_modify
+
+print(compute_next_frame(frame))
 
 """while True:
     # boucle infini qui affiche toutes les frames successives (ctrl + c pour arrêter le script)
